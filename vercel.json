@@ -1,5 +1,6 @@
 {
     "version": 2,
+    "outputDirectory": ".",
     "buildCommand": "sed -i 's|__BACKEND_API_URL__|'\"$VITE_BACKEND_URL\"'|g' index.html",
     "routes": [
       { "src": "/", "dest": "/index.html" },
