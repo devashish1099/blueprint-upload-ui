@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const imageLinkContainer = document.getElementById('imageLinkContainer');
     const uploadedImageUrlInput = document.getElementById('uploadedImageUrl');
     const copyLinkButton = document.getElementById('copyLinkButton');
+    const backendApiUrl = window.BACKEND_API_URL;
 
     // Function to update status messages
     function updateStatus(message, type = '') {
@@ -47,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
         analyzeButton.disabled = true;
 
         try {
-            const getUploadInfoResponse = await fetch('/api/getUploadInfo');
+            const getUploadInfoResponse = await fetch(backendApiUrl + '/api/getUploadInfo');
             if (!getUploadInfoResponse.ok) {
                 const errorData = await getUploadInfoResponse.json();
                 throw new Error(errorData.error || 'Failed to get upload info from API.');
