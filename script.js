@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const imgbbResult = await imgbbResponse.json();
 
             if (imgbbResult.data && imgbbResult.data.url) {
-                const imgbbImageUrl = imgbbResult.data.url;
+                const imgbbImageUrl = encodeURIComponent(imgbbResult.data.url);
                 
                 uploadedImageUrlInput.value = imgbbImageUrl;
                 imageLinkContainer.style.display = 'block';
