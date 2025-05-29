@@ -6,13 +6,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const uploadedImageUrlInput = document.getElementById('uploadedImageUrl');
     const copyLinkButton = document.getElementById('copyLinkButton');
     const backendApiUrl = window.BACKEND_API_URL;
-
     const projectUpvoteButton = document.getElementById('projectUpvoteButton');
     const projectUpvoteCountDiv = document.getElementById('projectUpvoteCount');
     const memeImage = document.getElementById('memeImage');
     const loadMemeButton = document.getElementById('loadMemeButton');
     const memeUpvoteButton = document.getElementById('memeUpvoteButton');
     const memeUpvoteCountDiv = document.getElementById('memeUpvoteCount');
+    const notificationPopup = document.getElementById('notificationPopup');
 
     // Function to update status messages
     function updateStatus(message, type = '') {
@@ -29,17 +29,31 @@ document.addEventListener('DOMContentLoaded', () => {
         uploadedImageUrlInput.value = '';
     }
 
+    function showNotificationPopup(message, type = 'success', duration = 3000) {
+        notificationPopup.textContent = message;
+        notificationPopup.className = '';
+        notificationPopup.classList.add(type === 'success' ? 'notification-success' : 'notification-error');
+        notificationPopup.classList.add('show');
+
+        setTimeout(() => {
+            notificationPopup.classList.remove('show');
+            setTimeout(() => {
+                notificationPopup.textContent = '';
+            }, 500);
+        }, duration);
+    }
+
     // Copy link to clipboard
     copyLinkButton.addEventListener('click', () => {
         uploadedImageUrlInput.select();
         uploadedImageUrlInput.setSelectionRange(0, 99999); // For mobile devices
         navigator.clipboard.writeText(uploadedImageUrlInput.value)
             .then(() => {
-                alert('Link copied to clipboard!');
+                showNotificationPopup('Link copied to clipboard!', 'success');
             })
             .catch(err => {
                 console.error('Failed to copy text: ', err);
-                alert('Failed to copy link. Please copy manually.');
+                showNotificationPopup('Failed to copy link. Please copy manually.', 'error');
             });
     });
 
@@ -145,18 +159,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await response.json();
                 if (type === 'project') {
                     projectUpvoteCountDiv.textContent = `Upvotes: ${data.newCount}`;
-                    alert('Project upvoted! Thank you!');
+                    showNotificationPopup('Project upvoted! Thank you!', 'success');
                 } else if (type === 'meme') {
                     memeUpvoteCountDiv.textContent = `Meme Upvotes: ${data.newCount}`;
-                    alert('Meme game upvoted! Thanks for the laugh!');
+                    showNotificationPopup('Meme game upvoted! Thanks for the laugh!', 'success');
                 }
             } else {
                 console.error(`Failed to upvote ${type}:`, await response.text());
-                alert(`Failed to upvote ${type}. Please try again.`);
+                showNotificationPopup(`Failed to upvote ${type}. Please try again.`, 'error');
             }
         } catch (error) {
             console.error(`Error upvoting ${type}:`, error);
-            alert(`An error occurred while upvoting ${type}.`);
+            showNotificationPopup(`An error occurred while upvoting ${type}.`, 'error');
         }
     }
 
@@ -178,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Error loading meme:', error);
             memeImage.style.display = 'none';
-            alert('Failed to load a random meme. Please try again.');
+            showNotificationPopup('Failed to load a random meme. Please try again.', 'error');
         }
     }
 
