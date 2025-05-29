@@ -182,12 +182,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error('Failed to fetch meme.');
             }
             const data = await response.json();
-            if (data && data.url) {
-                memeImage.src = data.url;
+            if (data && data.image_data && data.content_type) {
+                memeImage.src = `data:${data.content_type};base64,${data.image_data}`;
                 memeImage.style.display = 'block';
-                memeImage.alt = data.title || 'Random Meme';
+                memeImage.alt = 'Random Meme';
             } else {
-                throw new Error('Meme API did not return a valid image URL.');
+                throw new Error('Meme API did not return valid image data or content type.');
             }
         } catch (error) {
             console.error('Error loading meme:', error);
