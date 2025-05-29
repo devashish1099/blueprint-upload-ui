@@ -96,13 +96,26 @@
             color: #0c5460;
             border: 1px solid #bee5eb;
         }
+        .side-by-side-wrapper {
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 20px; 
+            justify-content: center; 
+            align-items: flex-start; 
+            max-width: 800px; 
+            margin: 0 auto 20px auto; 
+            padding: 0 20px; 
+        }
         .engagement-block {
+            flex: 1;
+            min-width: 300px; 
             background-color: #e6f7ff;
             padding: 20px;
             border-radius: 8px;
-            margin-top: 20px; 
+            margin-top: 0; 
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
             text-align: center;
+            box-sizing: border-box;
         }
         .engagement-block h2 {
             color: #0056b3;
@@ -176,19 +189,21 @@
             <button id="copyLinkButton">Copy Link and paste it in AI Agent</button>
         </div>
     </div>
-    <div class="container engagement-block">
-        <h2>Like this Project?</h2>
-        <p>If you find this Blueprint Analyzer useful, please consider giving it an upvote!</p>
-        <button id="projectUpvoteButton">Upvote</button>
-        <div id="projectUpvoteCount" class="upvote-count">Upvotes: 0</div>
-    </div>
-    <div class="container engagement-block">
-        <h2>Our Meme Game</h2>
-        <p>Here's a random meme for a laugh. Did we nail it?</p>
-        <img id="memeImage" class="meme-image" src="" alt="Random Meme" style="display: none;">
-        <button id="loadMemeButton">Load New Meme</button>
-        <button id="memeUpvoteButton">Upvote Our Meme Game</button>
-        <div id="memeUpvoteCount" class="upvote-count">Meme Upvotes: 0</div>
+    <div class="side-by-side-wrapper">
+        <div class="container engagement-block">
+            <h2>Like this Project?</h2>
+            <p>If you find this Blueprint Analyzer useful, please consider giving it an upvote!</p>
+            <button id="projectUpvoteButton">Upvote</button>
+            <div id="projectUpvoteCount" class="upvote-count">Upvotes: 0</div>
+        </div>
+        <div class="container engagement-block">
+            <h2>Our Meme Game</h2>
+            <p>Here's a random meme for a laugh. Did we nail it?</p>
+            <img id="memeImage" class="meme-image" src="" alt="Random Meme" style="display: none;">
+            <button id="loadMemeButton">Load New Meme</button>
+            <button id="memeUpvoteButton">Upvote Our Meme Game</button>
+            <div id="memeUpvoteCount" class="upvote-count">Meme Upvotes: 0</div>
+        </div>
     </div>
     <div id="notificationPopup"></div>
     <script> window.BACKEND_API_URL = "__BACKEND_API_URL__";</script>
