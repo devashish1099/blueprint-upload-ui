@@ -18,6 +18,7 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
         }
         h1 {
             color: #0056b3;
@@ -34,6 +35,7 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
+            transition: background-color 0.3s ease;
         }
         button:hover {
             background-color: #0056b3;
@@ -59,10 +61,15 @@
             background-color: #eaf7ed;
             border: 1px solid #c3e6cb;
             font-size: 14px;
+            width: calc(100% - 110px);
+            padding: 8px;
+            border-radius: 4px;
+            box-sizing: border-box;
         }
         #imageLinkContainer button {
             background-color: #28a745; /* Green for copy button */
             margin-left: 5px;
+            padding: 8px 12px;
         }
         #imageLinkContainer button:hover {
             background-color: #218838;
@@ -89,6 +96,43 @@
             color: #0c5460;
             border: 1px solid #bee5eb;
         }
+        .engagement-block {
+            background-color: #e6f7ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        .engagement-block h2 {
+            color: #0056b3;
+            margin-top: 0;
+        }
+        .engagement-block p {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+        .engagement-block button {
+            background-color: #ffc107;
+            color: #333;
+            margin: 5px;
+        }
+        .engagement-block button:hover {
+            background-color: #e0a800;
+        }
+        .upvote-count {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #007bff;
+            margin-top: 10px;
+        }
+        .meme-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-top: 15px;
+            border: 1px solid #ccc;
+        }
     </style>
 </head>
 <body>
@@ -105,6 +149,20 @@
             <input type="text" id="uploadedImageUrl" readonly>
             <button id="copyLinkButton">Copy Link and paste it in AI Agent</button>
         </div>
+    </div>
+    <div class="container engagement-block">
+        <h2>Like this Project?</h2>
+        <p>If you find this Blueprint Analyzer useful, please consider giving it an upvote!</p>
+        <button id="projectUpvoteButton">Upvote Project</button>
+        <div id="projectUpvoteCount" class="upvote-count">Upvotes: 0</div>
+    </div>
+    <div class="container engagement-block">
+        <h2>Our Meme Game</h2>
+        <p>Here's a random meme for a laugh. Did we nail it?</p>
+        <img id="memeImage" class="meme-image" src="" alt="Random Meme" style="display: none;">
+        <button id="loadMemeButton">Load New Meme</button>
+        <button id="memeUpvoteButton">Upvote Meme Game</button>
+        <div id="memeUpvoteCount" class="upvote-count">Meme Upvotes: 0</div>
     </div>
     <script> window.BACKEND_API_URL = "__BACKEND_API_URL__";</script>
     <script src="script.js"></script>

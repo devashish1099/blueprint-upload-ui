@@ -7,6 +7,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const copyLinkButton = document.getElementById('copyLinkButton');
     const backendApiUrl = window.BACKEND_API_URL;
 
+    const projectUpvoteButton = document.getElementById('projectUpvoteButton');
+    const projectUpvoteCountDiv = document.getElementById('projectUpvoteCount');
+    const memeImage = document.getElementById('memeImage');
+    const loadMemeButton = document.getElementById('loadMemeButton');
+    const memeUpvoteButton = document.getElementById('memeUpvoteButton');
+    const memeUpvoteCountDiv = document.getElementById('memeUpvoteCount');
+
     // Function to update status messages
     function updateStatus(message, type = '') {
         statusDiv.textContent = message;
@@ -92,4 +99,94 @@ document.addEventListener('DOMContentLoaded', () => {
             analyzeButton.disabled = false;
         }
     });
+
+    // Function to fetch and display upvote counts
+    async function fetchUpvoteCounts() {
+        try {
+
+            const projectResponse = await fetch(backendApiUrl + '/api/upvoteProject');
+            if (projectResponse.ok) {
+                const data = await projectResponse.json();
+                projectUpvoteCountDiv.textContent = `Upvotes: ${data.count}`;
+            } else {
+                console.error('Failed to fetch project upvotes:', await projectResponse.text());
+                projectUpvoteCountDiv.textContent = 'Upvotes: Error';
+            }
+
+
+            const memeResponse = await fetch(backendApiUrl + '/api/upvoteMeme');
+            if (memeResponse.ok) {
+                const data = await memeResponse.json();
+                memeUpvoteCountDiv.textContent = `Meme Upvotes: ${data.count}`;
+            } else {
+                console.error('Failed to fetch meme upvotes:', await memeResponse.text());
+                memeUpvoteCountDiv.textContent = 'Meme Upvotes: Error';
+            }
+
+        } catch (error) {
+            console.error('Error fetching upvote counts:', error);
+            projectUpvoteCountDiv.textContent = 'Upvotes: Error';
+            memeUpvoteCountDiv.textContent = 'Meme Upvotes: Error';
+        }
+    }
+
+    // Function to increment upvote
+    async function incrementUpvote(type) {
+        try {
+            const response = await fetch(backendApiUrl + `/api/upvote${type.charAt(0).toUpperCase() + type.slice(1)}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({})
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                if (type === 'project') {
+                    projectUpvoteCountDiv.textContent = `Upvotes: ${data.newCount}`;
+                    alert('Project upvoted! Thank you!');
+                } else if (type === 'meme') {
+                    memeUpvoteCountDiv.textContent = `Meme Upvotes: ${data.newCount}`;
+                    alert('Meme game upvoted! Thanks for the laugh!');
+                }
+            } else {
+                console.error(`Failed to upvote ${type}:`, await response.text());
+                alert(`Failed to upvote ${type}. Please try again.`);
+            }
+        } catch (error) {
+            console.error(`Error upvoting ${type}:`, error);
+            alert(`An error occurred while upvoting ${type}.`);
+        }
+    }
+
+    // Function to load a random meme image
+    async function loadRandomMeme() {
+        try {
+            const response = await fetch('https://meme-api.com/gimme');
+            if (!response.ok) {
+                throw new Error('Failed to fetch meme.');
+            }
+            const data = await response.json();
+            if (data && data.url) {
+                memeImage.src = data.url;
+                memeImage.style.display = 'block';
+                memeImage.alt = data.title || 'Random Meme';
+            } else {
+                throw new Error('Meme API did not return a valid image URL.');
+            }
+        } catch (error) {
+            console.error('Error loading meme:', error);
+            memeImage.style.display = 'none';
+            alert('Failed to load a random meme. Please try again.');
+        }
+    }
+
+    projectUpvoteButton.addEventListener('click', () => incrementUpvote('project'));
+    memeUpvoteButton.addEventListener('click', () => incrementUpvote('meme'));
+    loadMemeButton.addEventListener('click', loadRandomMeme);
+
+    fetchUpvoteCounts();
+    loadRandomMeme();
+
 });
