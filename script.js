@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to load a random meme image
     async function loadRandomMeme() {
         try {
-            const response = await fetch('https://meme-api.com/gimme');
+            const response = await fetch(backendApiUrl + '/api/getRandomMeme');
             if (!response.ok) {
                 throw new Error('Failed to fetch meme.');
             }
